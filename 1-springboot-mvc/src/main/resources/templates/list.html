@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+    <div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
+    <div class="alert alert-success" th:if="${success != null}" th:text="${success}"></div>
+
+    <div class="container p-2">
+        <h3 th:text="${title}"></h3>
+        <a class="btn btn-secondary" th:href="@{/users/form}" th:text="'crear user (+)'"></a>
+
+        <div th:text="'no hay usuarios en el sistema!'" th:if="${#lists.isEmpty(users)}"></div>
+        <table class="table table-hover table-striped">
+            <thead th:if="${not #lists.isEmpty(users)}">
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>LASTNAME</th>
+                <th>EMAIL</th>
+                <th>CREATED AT</th>
+                <th>EDIT</th>
+                <th>REMOVE</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user: ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.lastname}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.createdAt}"></td>
+                    <td><a th:href="@{/users/form/{id}(id=${user.id})}" class="btn btn-secondary btn-sm">edit</a></td>
+                    <td><a th:href="@{/users/delete/{id}(id=${user.id})}"
+                    onclick="return confirm('Esta seguro que desea eliminar?')" class="btn btn-danger btn-sm">delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
